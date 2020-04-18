@@ -1,0 +1,3 @@
+yfinance==0.1.54
+pandas==1.0.3
+mailtools==3.0.1
