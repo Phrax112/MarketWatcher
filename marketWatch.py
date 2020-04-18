@@ -22,7 +22,7 @@ TLS_PORT = 465 # no change
 EMAIL_PASS = "12345" # change
 SENDER_EMAIL = "sender@mail.com" # change
 REC_EMAIL = "receiver@mail.com" # change
-MSG_TITLE = "Market Update - "+str(dt.datetime.today()) # no change
+MSG_TITLE = "Market Update - "+str(dt.date.today()) # no change
 
 # Time Intervals
 # Depending on the intervals you wish to compare against, change these
@@ -54,7 +54,7 @@ def getCloses(last_working_date):
         date = last_working_date - dt.timedelta(days = i)
         date = getLastWorkingDate(date)
         print("Retrieving data for date:", date)
-        res = yf.download(TICKERS, start=date - dt.timedelta(days=4), end=date)[-1:]
+        res = yf.download(TICKERS, start=date - dt.timedelta(days=4), end=date + dt.timedelta(days=1))[-1:]
         results = results.append(res["Adj Close"])
     return results
 
@@ -94,7 +94,7 @@ def sendEmail(msg):
 # Once the data has been gathered change the tables to html and
 #   pass to the email send function
 def main():
-    last_working_date = dt.datetime.today() - dt.timedelta(days = 1)
+    last_working_date = dt.date.today() - dt.timedelta(days = 1)
     last_working_date = getLastWorkingDate(last_working_date)
     closing_prices = getCloses(last_working_date)
     price_diffs = getDiffs(closing_prices)
