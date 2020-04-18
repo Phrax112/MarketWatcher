@@ -1,5 +1,7 @@
 # MarketWatcher
 
+[ *Blog post here* ](https://www.genemoynihan.com/2020/04/18/Market-Watcher.html)
+
 Simple python script to grab closing price data from Yahoo finance and email it to a specific inbox.
 
 Default scheduling would be for this to run every morning pre market open.
