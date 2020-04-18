@@ -7,7 +7,7 @@ import yfinance as yf
 import pandas as pd
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import smptlib
+import smtplib
 import ssl
 
 # Set the precision to 2 decimal places
@@ -19,8 +19,8 @@ pd.options.display.float_format = '{:.2f}'.format
 
 # For email configuration and formatting
 TLS_PORT = 465 # no change
-EMAIL_PASS = "1235" # change
-SENDER_EMAIL = "name@mail.com" # change
+EMAIL_PASS = "12345" # change
+SENDER_EMAIL = "sender@mail.com" # change
 REC_EMAIL = "receiver@mail.com" # change
 MSG_TITLE = "Market Update - "+str(dt.datetime.today()) # no change
 
@@ -30,7 +30,7 @@ MSG_TITLE = "Market Update - "+str(dt.datetime.today()) # no change
 INTERVALS = [0, 1, 7, 30, 90, 180, 365]
 
 # Tickers to watch, lookup any new ones to add on Yahoo finance
-TICKERS = ['^FTSE', '^GSPC', '^IETP', 'HSBA.L']
+TICKERS = ['^FTSE', 'VOD.L', 'HSBA.L']
 
 ###
 # Functions
@@ -54,7 +54,7 @@ def getCloses(last_working_date):
         date = last_working_date - dt.timedelta(days = i)
         date = getLastWorkingDate(date)
         print("Retrieving data for date:", date)
-        res = yf.download(TICKERS, start=date, end=date)
+        res = yf.download(TICKERS, start=date - dt.timedelta(days=4), end=date)[-1:]
         results = results.append(res["Adj Close"])
     return results
 
@@ -95,7 +95,7 @@ def sendEmail(msg):
 #   pass to the email send function
 def main():
     last_working_date = dt.datetime.today() - dt.timedelta(days = 1)
-    last_working_date = getLastWeekday(last_working_date)
+    last_working_date = getLastWorkingDate(last_working_date)
     closing_prices = getCloses(last_working_date)
     price_diffs = getDiffs(closing_prices)
     closing_prices = closing_prices[0:1].to_html(formatters={'Name': lambda x: '<b>' + x + '</b>'})

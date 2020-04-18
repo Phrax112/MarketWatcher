@@ -13,3 +13,5 @@ INTERVALS specified the time frames you wish to compare prices over. For example
 Once all the data has been athered the two tables (one for last price and one for the historic price movements) are converted to html and send to the specified email.
 
 I would recommend setting up a throwaway gmail account to function as the email sender for security reasons as the password needs to be stored somewhere for this script to work.
+
+This script is simply a test and shouldn't be used in seriousness, there are several large flaws with the closing price retrieval logic with regards market events and corporate actions.
